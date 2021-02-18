@@ -49,7 +49,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: skim_ggH
-          path: [skim_ggH.root, skim_ggH.log ]
+          path: skim_ggH.root, skim_ggH.log
 
   plot:
     needs: skim
