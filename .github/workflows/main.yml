@@ -20,7 +20,8 @@ jobs:
           FLAGS=$(root-config --cflags --libs)
           $COMPILER -g -O3 -Wall -Wextra -Wpedantic -o skim skim.cxx $FLAGS
 
-      - uses: actions/upload-artifact@v2
+      - name: upload skim exe
+        uses: actions/upload-artifact@v2
         with:
           name: skim${{ matrix.version }}
           path: skim
@@ -34,7 +35,8 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v2
 
-      - uses: actions/download-artifact@v2
+      - name: download file to skim
+        uses: actions/download-artifact@v2
         with:
           name: skim6.18.04
 
@@ -46,10 +48,13 @@ jobs:
           chmod +x ./skim
           ./skim root://eosuser.cern.ch//eos/user/g/gstark/AwesomeWorkshopFeb2020/GluGluToHToTauTau.root skim_ggH.root 19.6 11467.0 0.1 > skim_ggH.log
     
-      - uses: actions/upload-artifact@v2
+      - mane: upload skimmed file
+        uses: actions/upload-artifact@v2
         with:
           name: skim_ggH
-          path: skim_ggH.root, skim_ggH.log
+          path: |
+            skim_ggH.root 
+            skim_ggH.log
 
   plot:
     needs: skim
@@ -60,14 +65,16 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v2
 
-      - uses: actions/download-artifact@v2
+      - name: dowload skimmed
+        uses: actions/download-artifact@v2
         with:
           name: skim_ggH
 
       - name: plot
         run: python histograms.py skim_ggH.root ggH hist_ggH.root  
 
-      - uses: actions/upload-artifact@v2
+      - name: upload histograms
+        uses: actions/upload-artifact@v2
         with:
           name: histograms
           path: hist_ggH.root        
@@ -81,7 +88,13 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v2
 
-      - uses: actions/download-artifact@v2
+      - name: Download skimmed file
+        uses: actions/download-artifact@v2
+        with:
+          name: skim_ggH
+
+      - name: Download histograms
+        uses: actions/download-artifact@v2
         with:
           name: histograms
 
