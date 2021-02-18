@@ -101,6 +101,7 @@ jobs:
           name: histograms
 
       - name: test_cutflow
-        run: |
-          pyROOT test/test_cutflow_ggH.py 
-          python3 test/test_plot_ggH.py
+        run: python test/test_cutflow_ggH.py 
+      
+      - name: test_plot_ggH
+        run: python3 test/test_plot_ggH.py
