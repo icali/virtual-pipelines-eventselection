@@ -16,3 +16,5 @@ integral = f.ggH_pt_1.Integral()
 if abs(integral - 222.88716647028923) > 0.0001:
     print(f'Integral of ggH_pt_1 is different: {integral}')
     sys.exit(1)
+
+sys.exit(1)
